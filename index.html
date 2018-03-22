@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="transformer.js"></script>
+    <script src="parser.js"></script>
+    <script src="generator.js"></script>
+    <script src="lexer.js"></script>
+</head>
+<body>
+    <script>
+        var sbn = {};
+        sbn.VERSION = '0.0.1';
+        sbn.lexer = lexer;
+        sbn.parser = parser;
+        sbn.transformer = transformer;
+        sbn.generator = generator;
+
+        sbn.compile = function (code) {
+            return this.generator(this.transformer(this.parser(this.lexer(code))))
+        };
+
+        // call sbn compiler
+
+        var code = 'GiveThanksTo';
+        var svg = sbn.compile(code);
+        document.body.innerHTML = svg;
+    </script>
+</body>
+</html>
