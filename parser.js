@@ -30,11 +30,11 @@ function parser (tokens) {
                   name: current_token.value,
                   arguments: []
                 }
-                state.name = 'function_args'
+                state.name = 'function_end'
                 state.stage = expression;
                 break;
               case 'function_args':
-                  if(current_token.value !== 'jah'){
+                  if(current_token.value !== 'jah' && current_token.value !== 'rasta'){
                     state.stage.arguments.splice(state.stage.arguments.length, 0, current_token.value); // Inserts into last position of array
                   }
                 break;
@@ -58,10 +58,18 @@ function parser (tokens) {
                     throw 'Who you giving thanks to mon'
                   }
                   break;
+                case 'blessings':
+                  if(memory[0].value === 'with' && state.name === 'function_end'){
+                    state.name = 'function_args';
+                  }else{
+                    console.log(memory[0].value);
+                  }
+                  break;
                 case 'rasta':
                   if(memory[0].value === 'jah'){
                     if(state.name === 'function_args'){
                       console.log("New function has ended");
+                      console.log(state.stage);
                       AST.body.push(state.stage);
                       clearState();
                     }
