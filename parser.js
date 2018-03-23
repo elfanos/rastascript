@@ -78,6 +78,7 @@ function parser (tokens) {
                       clearState();
                     }
                   }else{
+                    console.log(memory[0].value);
                     throw 'You blodclot One love'
                   }
             }
