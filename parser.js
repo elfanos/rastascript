@@ -37,7 +37,9 @@ function parser (tokens) {
                                 {
                                     type: 'CallExpression',
                                     name: 'I say',
-                                    arguments: []
+                                    arguments: [
+                                        current_token.value
+                                    ]
                                 }
                             );
                         }else{
