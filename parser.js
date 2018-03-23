@@ -17,6 +17,7 @@ function parser (tokens) {
 
     // extract a token at a time as current_token. Loop until we are out of tokens.
     while (tokens.length > 0){
+        // Current node is the current word in the code
         var current_token = tokens.shift();
         // Since number token does not do anything by it self, we only analyze syntax when we find a word.
         if (current_token.type === 'word') {
@@ -40,9 +41,6 @@ function parser (tokens) {
                 break;
             }
             switch (current_token.value) {
-                case 'Give':
-                    console.log("Give thanks");
-                  break;
                 case 'thanks': // Give thanks : function type, if to is followed, arguments are added
                   if(memory[0].value === 'Give'){
 
@@ -52,7 +50,6 @@ function parser (tokens) {
                   break;
                 case 'to': // If it follows a thanks then arguments are added
                   if(memory[0].value === 'thanks'){
-                    console.log("New function creation started");
                     state.name = 'function_name';
                   }else {
                     throw 'Who you giving thanks to mon'
@@ -62,22 +59,29 @@ function parser (tokens) {
                   if(memory[0].value === 'with' && state.name === 'function_end'){
                     state.name = 'function_args';
                   }else{
-                    console.log(memory[0].value);
+                    throw 'Whom do you bless rasta'
                   }
                   break;
                 case 'rasta':
                   if(memory[0].value === 'jah'){
                     if(state.name === 'function_args'){
-                      console.log("New function has ended");
-                      console.log(state.stage);
+                      state.name = 'function_inside'
+                    }
+                  }else{
+                    throw 'Wagwan Haile Selassie himself would not use the lords name in vain'
+                  }
+                  break;
+                case 'love':
+                  if(memory[0].value === 'One'){
+                    if(state.name === 'function_inside'){
                       AST.body.push(state.stage);
                       clearState();
                     }
+                  }else{
+                    throw 'You blodclot One love'
                   }
-                  break;
             }
         }
-        //memory.insert(current_token);
         memory.splice(0, 0, current_token);
     }
     console.log("Jah we are done parsing the file now mon!");
